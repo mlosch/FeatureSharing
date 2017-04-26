@@ -3,7 +3,6 @@ import numpy as np
 import preprocessing
 from tqdm import tqdm
 from collections import OrderedDict
-from torch.autograd import Variable
 
 
 def softmax(x):
@@ -81,9 +80,6 @@ def volatile_lesioning(args, nn, batch, targets, batchsize, scoringfunc):
 
 def persistent_lesioning(args, nn, batch, targets, lesion_order):
     nsamples = max(1, args.random)
-    input_torch = torch.from_numpy(batch).cuda()
-    input_var = Variable(input_torch)
-
     accuracies_by_layer = OrderedDict()
 
     for layer, ind_order in lesion_order.items():
@@ -102,26 +98,13 @@ def persistent_lesioning(args, nn, batch, targets, lesion_order):
             preds = nn.forward(batch)
             accuracies[run, 0, :] = preprocessing.accuracy(preds, targets)
 
-            weights = nn.state_dict[layer + '.weight']
-            bias = nn.state_dict[layer + '.bias']
-
             for k, ind in enumerate(tqdm(inds, desc='Layer ' + layer)):
                 weights[ind] = 0
                 bias[ind] = 0
-                # nn.set_weights(layer, weights)
-                # nn.set_bias(layer, bias)
+                nn.set_weights(layer, weights)
+                nn.set_bias(layer, bias)
 
-                # preds = nn.forward(batch)
-
-                out = nn.model.forward(input_var)
-                if type(out) is list:
-                    clean_out = []
-                    for v in out:
-                        clean_out.append(v.data.cpu().numpy())
-                    out = clean_out
-                else:
-                    out = out.data.cpu().numpy()
-                preds = out
+                preds = nn.forward(batch)
 
                 accuracies[run, k + 1, :] = preprocessing.accuracy(preds, targets)
 
