@@ -21,9 +21,8 @@ def init_model(args):
                       std=np.array([0.229, 0.224, 0.225]),
                       inputsize=[3, 224, 224],
                       use_gpu=True,
-                      output_filter=[str(i) for i in range(20)]
                       )
-    nn.model = torch.nn.DataParallel(nn.model)
+    # nn.model = torch.nn.DataParallel(nn.model)
 
     return nn, classids_to_pred
 
@@ -95,7 +94,7 @@ if __name__ == '__main__':
             os.makedirs(feature_output_folder)
 
         print('Saving visualizations to: %s' % feature_output_folder)
-        visualization.visualize_features(args, nn, layer_names)
+        visualization.visualize_features(args, nn, layer_names, feature_output_folder)
 
         sys.exit(0)
 
