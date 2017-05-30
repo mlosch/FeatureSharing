@@ -5,7 +5,8 @@ Repository of materials to reproduce results in the article Visual Pathways from
 ## Prerequisites
 The following python packages are required to use this package:
 - numpy (>= 1.11.1)
-- scikit-image (>= 0.12.3)
+- matplotlib
+- tqdm (for progress bars)
 - [pytorch](https://github.com/pytorch/pytorch#installation)
 - [nnadapter](https://github.com/mlosch/nnadapter#installation) (No Caffe or torch7 installation required)
 
