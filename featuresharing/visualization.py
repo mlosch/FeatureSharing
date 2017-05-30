@@ -99,6 +99,11 @@ def multiplot_accuracies(outputfilep, accuracies_by_experiment, layers, labels, 
             plotsA = ax.plot(x, y[:, 0], label=labels[0])
             plotsB = ax.plot(x, y[:, 1], label=labels[1])
 
+            # if not is_nullH and null_hypotheses[i] is not None:
+            #     y_mean, y_std = null_hypotheses[i]
+            #     ax.plot(x, 1.0 + y[:, 0] - y_mean[:, 0], color=plotsA[0].get_color())
+            #     ax.plot(x, 1.0 + y[:, 1] - y_mean[:, 1], color=plotsB[0].get_color())
+
             if not is_nullH and null_hypotheses[i] is not None:
                 # mark x's that are significantly different from null hypothesis
                 y_mean, y_std = null_hypotheses[i]

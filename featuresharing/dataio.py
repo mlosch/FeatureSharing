@@ -1,5 +1,6 @@
 import os
 import random
+import numpy as np
 
 
 def read(imagesrc, imagelist):
@@ -20,3 +21,8 @@ def read(imagesrc, imagelist):
     targets = [targets[i] for i in shuffle_inds]
 
     return data, targets
+
+
+def loadnpz(f):
+    dat = np.load(f)
+    return [dat[key] for key in dat], [key for key in dat]
