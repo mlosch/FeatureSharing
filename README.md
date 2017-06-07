@@ -1,5 +1,22 @@
 # FeatureSharing
-Repository of materials to reproduce results in the article Visual Pathways from the perspective of multi-task deep neural networks
+Repository of materials to reproduce the results in the article "Visual pathways from the perspective of cost functions and multi-task deep neural networks".
+Link to paper on bioRxiv: [http://biorxiv.org/content/early/2017/06/06/146472](http://biorxiv.org/content/early/2017/06/06/146472)
+
+## Visualizations
+Below are the representation-to-task-contributions over training time. 
+
+Related Tasks
+
+| conv1 | conv2 | conv3 | conv4 | conv5 |
+| ---- | ---- | ---- | ---- | ---- |
+| ![conv1](img/gifs/Subord+Basic/conv1.gif) | ![conv2](img/gifs/Subord+Basic/conv2.gif) | ![conv3](img/gifs/Subord+Basic/conv3.gif) | ![conv4](img/gifs/Subord+Basic/conv4.gif) | ![conv5](img/gifs/Subord+Basic/conv5.gif) |
+
+
+Unrelated Tasks
+
+| conv1 | conv2 | conv3 | conv4 | conv5 |
+| ---- | ---- | ---- | ---- | ---- |
+| ![conv1](img/gifs/Object+Text/conv1.gif) | ![conv2](img/gifs/Object+Text/conv2.gif) | ![conv3](img/gifs/Object+Text/conv3.gif) | ![conv4](img/gifs/Object+Text/conv4.gif) | ![conv5](img/gifs/Object+Text/conv5.gif) |
 
 
 ## Prerequisites
@@ -24,9 +41,9 @@ To reproduce the visualizations in section 3 of the article, follow these steps:
 `bash scripts/visualize_featurecontribution.sh`
 
 ## Generating data and training models
-Pretrained models and the full training data can be downloaded here:
-- [Pretrained models](https://s3.eu-central-1.amazonaws.com/multitaskcnns/models.tar.bz2)
+The full training data (and pretrained models) can be downloaded here:
 - [Full training dataset](https://s3.eu-central-1.amazonaws.com/multitaskcnns/mtldataset_full.tar.gz)
+- [Pretrained models](https://s3.eu-central-1.amazonaws.com/multitaskcnns/models.tar.bz2)
 
 We used the [fb.resnet.torch](https://github.com/facebook/fb.resnet.torch) package in conjunction with [Torch7](http://torch.ch/docs/getting-started.html) to train our models.
 
