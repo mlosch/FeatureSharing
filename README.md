@@ -2,8 +2,25 @@
 Repository of materials to reproduce the results in the article "Visual pathways from the perspective of cost functions and multi-task deep neural networks".
 Link to paper on bioRxiv: [http://biorxiv.org/content/early/2017/06/06/146472](http://biorxiv.org/content/early/2017/06/06/146472)
 
+## Purpose
+The purpose of this repository is two-fold.
+1. Reproduce the results and visualizations of the paper
+2. Use the source code as base or inspiration to use in your own analysis of deep neural networks.
+The core of the proposed method is the marginalization of parameters to estimate the contribution of feature representations to a class or task (see [this function](https://github.com/mlosch/FeatureSharing/blob/master/featuresharing/surgery.py#L41)). While the implementation holds some comments I advise to have a look at the appendix of the paper which describes the method in detail.
+
+### Measuring contributions in your own DNN
+While the general implementation should be able to handle all networks trained in Caffe, Torch7 and PyTorch, the specific setup is limited to Torch7 models, the limiting variable being the meta data describing the mapping between output units and classes. The meta data is exclusively used in [this line](https://github.com/mlosch/FeatureSharing/blob/master/featuresharing/preprocessing.py#L66).
+
+## Prerequisites
+The following python packages are required to use this package:
+- numpy (>= 1.11.1)
+- matplotlib
+- tqdm (for progress bars)
+- [pytorch](https://github.com/pytorch/pytorch#installation)
+- [nnadapter](https://github.com/mlosch/nnadapter#installation) (No Caffe or torch7 installation required)
+
 ## Visualizations
-Below are the representation-to-task-contributions over training time. 
+Below are the representation-to-task-contributions over training time. See the article in section 3 for more details.
 
 Related Tasks
 
@@ -18,14 +35,6 @@ Unrelated Tasks
 | ---- | ---- | ---- | ---- | ---- |
 | ![conv1](img/gifs/Object+Text/conv1.gif) | ![conv2](img/gifs/Object+Text/conv2.gif) | ![conv3](img/gifs/Object+Text/conv3.gif) | ![conv4](img/gifs/Object+Text/conv4.gif) | ![conv5](img/gifs/Object+Text/conv5.gif) |
 
-
-## Prerequisites
-The following python packages are required to use this package:
-- numpy (>= 1.11.1)
-- matplotlib
-- tqdm (for progress bars)
-- [pytorch](https://github.com/pytorch/pytorch#installation)
-- [nnadapter](https://github.com/mlosch/nnadapter#installation) (No Caffe or torch7 installation required)
 
 ## Reproducing results
 To reproduce the visualizations in section 3 of the article, follow these steps:
