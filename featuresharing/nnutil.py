@@ -37,9 +37,7 @@ def init_model(model_fp, classtoidx_fp):
                       std=np.array([0.229, 0.224, 0.225]),
                       inputsize=[3, 224, 224],
                       use_gpu=True,
-                      output_filter=[str(i) for i in range(20)],
                       )
-    nn.model = torch.nn.DataParallel(nn.model)
 
     return nn, classids_to_pred
 

@@ -47,9 +47,6 @@ def marginalize_out_feature(nn, batch, batchsize, layer, prior_pdf, nsamples):
     nunits = weights.shape[0]
     ninputs = batch.shape[0]
 
-    weights = nn.state_dict[layer + '.weight']
-    bias = nn.state_dict[layer + '.bias']
-
     conditionals = []
 
     # determine output layer dimensions
@@ -61,11 +58,8 @@ def marginalize_out_feature(nn, batch, batchsize, layer, prior_pdf, nsamples):
 
     for unitidx in tqdm(range(nunits), desc='Layer ' + layer):
 
-        unit_weight = weights[unitidx].clone()
-        if bias.dim() > 1:
-            unit_bias = bias[unitidx].clone()
-        else:
-            unit_bias = bias[unitidx]
+        unit_weight = weights[unitidx].copy()
+        unit_bias = bias[unitidx].copy()
 
         weight_samples, bias_samples = prior_pdf[unitidx].rvs(nsamples)
         # determine prior probability of sampled weight
@@ -79,33 +73,22 @@ def marginalize_out_feature(nn, batch, batchsize, layer, prior_pdf, nsamples):
         priors -= priors.max()
         priors -= np.log(np.exp(priors).sum())
 
-        # convert samples to torch tensors
-        weight_samples, bias_samples = torch.from_numpy(weight_samples), torch.from_numpy(bias_samples)
-
         for i in range(0, len(batch), batchsize):
-            minibatch_np = batch[i:(i + batchsize)]
-            minibatch = Variable(torch.from_numpy(minibatch_np).cuda())
+            minibatch = batch[i:(i + batchsize)]
 
             conditional_samples = []
             for pred in preds:
                 noutputs = pred.shape[1]
-                conditional_samples.append(np.empty((nsamples, minibatch_np.shape[0], noutputs)))
+                conditional_samples.append(np.empty((nsamples, minibatch.shape[0], noutputs)))
 
             for s in range(nsamples):
 
                 # set weight and bias to sample
-                weights[unitidx] = weight_samples[s].view_as(weights[unitidx])
-                if bias.dim() > 1:
-                    bias[unitidx] = bias_samples[s].view_as(bias[unitidx])
-                else:
-                    bias[unitidx] = bias_samples[s]
-                # nn.set_weights(layer, weights)
-                # nn.set_bias(layer, bias)
+                nn.set_weights(layer, weights)
+                nn.set_bias(layer, bias)
 
                 # and classify to get p(y | \Theta \leftarrow w_i = w_s)
-                # preds = [log_softmax(x) for x in nn.forward(minibatch)]
-                out = nn.model.forward(minibatch)
-                preds = [log_softmax(x.data.cpu().numpy()) for x in out]
+                preds = [log_softmax(x) for x in nn.forward(minibatch)]
 
                 for task in range(len(preds)):
                     # preds[task] \in (nBatches x nOutputs)
@@ -117,6 +100,9 @@ def marginalize_out_feature(nn, batch, batchsize, layer, prior_pdf, nsamples):
         # restore original parameter values
         weights[unitidx] = unit_weight
         bias[unitidx] = unit_bias
+
+    nn.set_weights(layer, weights)
+    nn.set_bias(layer, bias)
 
     return conditionals
 
