@@ -82,8 +82,12 @@ def marginalize_out_feature(nn, batch, batchsize, layer, prior_pdf, nsamples):
                 conditional_samples.append(np.empty((nsamples, minibatch.shape[0], noutputs)))
 
             for s in range(nsamples):
-
                 # set weight and bias to sample
+                weights[unitidx] = weight_samples[s].reshape(weights[unitidx].shape)
+                if bias.ndim > 1:
+                    bias[unitidx] = bias_samples[s].reshape(bias[unitidx].shape)
+                else:
+                    bias[unitidx] = bias_samples[s]
                 nn.set_weights(layer, weights)
                 nn.set_bias(layer, bias)
 
@@ -105,58 +109,6 @@ def marginalize_out_feature(nn, batch, batchsize, layer, prior_pdf, nsamples):
     nn.set_bias(layer, bias)
 
     return conditionals
-
-
-def lesion_unit(nn, weights, bias, layer, batch, unitidx, apply_softmax=False):
-    weight_backup = weights[unitidx].copy()
-    bias_backup = bias[unitidx].copy()
-
-    weights[unitidx] = 0
-    bias[unitidx] = 0
-    nn.set_weights(layer, weights)
-    nn.set_bias(layer, bias)
-
-    preds = nn.forward(batch)
-
-    if apply_softmax:
-        # apply softmax to predictions
-        for task in range(len(preds)):
-            preds[task] = softmax(preds[task])
-
-    weights[unitidx] = weight_backup
-    bias[unitidx] = bias_backup
-
-    return preds
-
-
-def volatile_lesioning(nn, batch, batchsize, layer, softmax):
-
-    (weights, bias) = nn.get_layerparams(layer)
-    nunits = weights.shape[0]
-    ninputs = batch.shape[0]
-
-    # determine output layer dimensions
-    preds = nn.forward(batch[0][np.newaxis, ...])
-
-    lesioned_preds = []
-    for pred in preds:
-        noutputs = pred.shape[1]
-        lesioned_preds.append(np.empty((nunits, ninputs, noutputs), dtype=np.float32))
-
-    for unitidx in tqdm(range(nunits), desc='Layer ' + layer):
-        for i in range(0, len(batch), batchsize):
-            minibatch = batch[i:(i + batchsize)]
-
-            preds = lesion_unit(nn, weights, bias, layer, minibatch, unitidx, softmax)
-            for task in range(len(preds)):
-                lesioned_preds[task][unitidx, i:(i+batchsize), :] = preds[task]
-
-    # ensure original sets of weights and bias are restored
-    nn.set_weights(layer, weights)
-    nn.set_bias(layer, bias)
-
-    return lesioned_preds
-
 
 def accuracy_batched(nn, batch, batchsize, targets):
     preds = nnutil.classify(nn, batch, batchsize)
