@@ -24,6 +24,7 @@ if __name__ == '__main__':
     parser.add_argument('--samples', type=int, default=20, help='If method == marginalize: '
                                                                 'Number of parameter samples per feature unit')
     parser.add_argument('--batchsize', type=int, default=256)
+    parser.add_argument('--usegpu', action='store_true', help='Enable gpu use.')
 
     args = parser.parse_args()
 
@@ -61,7 +62,7 @@ if __name__ == '__main__':
 
     # ------------------------------------------------------------------------------------------------------------------
     # Load and initialize model
-    nn, classids_to_pred = nnutil.init_model(args.model, args.classtoidx)
+    nn, classids_to_pred = nnutil.init_model(args.model, args.classtoidx, args.usegpu)
 
     # ------------------------------------------------------------------------------------------------------------------
     # Construct list of images and corresponding targets from args.imagelist

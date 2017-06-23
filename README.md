@@ -42,7 +42,8 @@ To reproduce the visualizations in section 3 of the article, follow these steps:
 `git clone https://github.com/mlosch/FeatureSharing.git && cd FeatureSharing`
 - Download pretrained models and images via<BR>
 `bash scripts/download_pretrained_models.sh`
-- Run marginalization of parameters. Depending on your system this may take days. You can alter the number of samples in the script to a small value to speed up the process in exchange for accuracy.<BR>
+- Run marginalization of parameters. Depending on your system this may take days. You can alter the number of samples in the script to a small value (20 still gives good results) to speed up the process in exchange for accuracy.<BR>
+**Note:** If your system does not contain a graphics card, you must remove the line `--usegpu` in the script. <BR>
 `bash scripts/generate_conditionals.sh`
 - Calculate the weighted evidence from the generated data<BR>
 `bash scripts/analysis_featurecontribution.sh`

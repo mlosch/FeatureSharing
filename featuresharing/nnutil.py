@@ -25,7 +25,7 @@ def log_softmax(x):
     return lsm
 
 
-def init_model(model_fp, classtoidx_fp):
+def init_model(model_fp, classtoidx_fp, use_gpu):
     # load class to indices
     lua_gen = load_lua(classtoidx_fp)
     classids_to_pred = [dict(d) for d in lua_gen[0]['train']['classToIdx']]
@@ -35,7 +35,7 @@ def init_model(model_fp, classtoidx_fp):
                       mean=np.array([0.485, 0.456, 0.406]),
                       std=np.array([0.229, 0.224, 0.225]),
                       inputsize=[3, 224, 224],
-                      use_gpu=True,
+                      use_gpu=use_gpu,
                       )
 
     return nn, classids_to_pred

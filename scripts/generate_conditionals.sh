@@ -11,7 +11,8 @@ python -m featuresharing.preprocessing \
 --output data/processed \
 --method marginalize \
 --samples 100 \
---layers 0.0.0 0.0.3 0.0.6 0.0.8 0.0.10 1.2 1.5
+--layers 0.0.0 0.0.3 0.0.6 0.0.8 0.0.10 1.2 1.5 \
+--usegpu
 
 python -m featuresharing.preprocessing \
 --model data/models/alexnet-large-basicvssubord.t7 \
@@ -22,4 +23,5 @@ python -m featuresharing.preprocessing \
 --output data/processed \
 --method marginalize \
 --samples 100 \
---layers 0.0.0 0.0.3 0.0.6 0.0.8 0.0.10 1.2 1.5
+--layers 0.0.0 0.0.3 0.0.6 0.0.8 0.0.10 1.2 1.5 \
+--usegpu
