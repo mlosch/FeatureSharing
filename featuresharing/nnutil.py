@@ -1,8 +1,7 @@
-import torch
 import numpy as np
 from tqdm import tqdm
 from torch.utils.serialization import load_lua
-from nnadapter.torchadapter import TorchAdapter
+from emu.torch import TorchAdapter
 
 
 def batchify(x, dim, size):
@@ -10,7 +9,7 @@ def batchify(x, dim, size):
 
     length = x.shape[dim]
 
-    for i in xrange(0, length, size):
+    for i in range(0, length, size):
         yield x.take(range(i, min(length, i + size)), axis=dim)
 
 
@@ -67,7 +66,7 @@ def classify(nn, data, batchsize, apply_softmax=False, progressbar=False):
 
 def prediction_equals(predictions, targets):
     correct = []
-    for task in xrange(len(predictions)):
+    for task in range(len(predictions)):
         inds = np.argmax(predictions[task], axis=1)
         correct.append(inds == targets[:, task])
 

@@ -1,9 +1,7 @@
-import torch
 import nnutil
 import numpy as np
 from tqdm import tqdm
-from torch.autograd import Variable
-from nnutil import softmax, log_softmax
+from nnutil import log_softmax
 
 
 class JointPdf(object):

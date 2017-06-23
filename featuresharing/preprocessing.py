@@ -53,9 +53,7 @@ if __name__ == '__main__':
                    '0.0.8': 'conv4',
                    '0.0.10': 'conv5',
                    '1.2': 'fc6',
-                   '1.5': 'fc7',
-                   '1.7.0': 'fc8-task1',
-                   '1.7.1': 'fc8-task2'}
+                   '1.5': 'fc7'}
 
     for layer in args.layers:
         if layer not in layer_names:

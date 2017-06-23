@@ -17,7 +17,7 @@ The following python packages are required to use this package:
 - matplotlib
 - tqdm (for progress bars)
 - [pytorch](https://github.com/pytorch/pytorch#installation)
-- [nnadapter](https://github.com/mlosch/nnadapter#installation) (No Caffe or torch7 installation required)
+- [emu](https://github.com/mlosch/emu#installation) (only pytorch required)
 
 ## Visualizations
 Below are the representation-to-task-contributions over training time. See the article in section 3 for more details.
