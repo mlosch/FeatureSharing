@@ -9,7 +9,7 @@ The purpose of this repository is two-fold.
 The core of the proposed method is the marginalization of parameters to estimate the contribution of feature representations to a class or task (see [this function](https://github.com/mlosch/FeatureSharing/blob/master/featuresharing/surgery.py#L41)). While the implementation holds some comments I advise to have a look at the appendix of the paper which describes the method in detail.
 
 ### Measuring contributions in your own DNN
-While the general implementation should be able to handle all networks trained in Caffe, Torch7 and PyTorch, the specific setup is limited to Torch7 models, the limiting variable being the meta data describing the mapping between output units and classes. The meta data is exclusively used in [this line](https://github.com/mlosch/FeatureSharing/blob/master/featuresharing/preprocessing.py#L66).
+While the general implementation should be able to handle all networks trained in Caffe, Torch7 and PyTorch, the specific setup is limited to Torch7 models, the limiting variable being the meta data describing the mapping between output units and classes. The meta data is exclusively used in [this line](https://github.com/mlosch/FeatureSharing/blob/master/featuresharing/preprocessing.py#L65).
 
 ## Prerequisites
 The following python packages are required to use this package:
