@@ -52,8 +52,8 @@ To reproduce the visualizations in section 3 of the article, follow these steps:
 
 ## Generating data and training models
 The full training data (and pretrained models) can be downloaded here:
-- [Full training dataset](https://s3.eu-central-1.amazonaws.com/multitaskcnns/mtldataset_full.tar.gz)
-- [Pretrained models](https://s3.eu-central-1.amazonaws.com/multitaskcnns/models.tar.bz2)
+- [Full training dataset](https://datasets.d2.mpi-inf.mpg.de/multitaskcnns/mtldataset_full.tar.gz)
+- [Pretrained models](https://datasets.d2.mpi-inf.mpg.de/multitaskcnns/models.tar.bz2)
 
 We used the [fb.resnet.torch](https://github.com/facebook/fb.resnet.torch) package in conjunction with [Torch7](http://torch.ch/docs/getting-started.html) to train our models.
 
